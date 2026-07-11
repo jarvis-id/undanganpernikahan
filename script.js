@@ -24,6 +24,19 @@ document.addEventListener('DOMContentLoaded', () => {
   if (rawGuestName) {
     const formattedName = decodeURIComponent(rawGuestName.replace(/\+/g, ' '));
     guestNameElement.textContent = formattedName;
+    
+    // Perbarui judul halaman di browser tab secara dinamis
+    document.title = `Undangan Pernikahan Adam & Hawa - Spesial untuk ${formattedName}`;
+    
+    // Perbarui meta tag Open Graph & Twitter secara dinamis
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', `Undangan Pernikahan Adam & Hawa - Spesial untuk ${formattedName}`);
+    }
+    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twitterTitle) {
+      twitterTitle.setAttribute('content', `Undangan Pernikahan Adam & Hawa - Spesial untuk ${formattedName}`);
+    }
   } else {
     guestNameElement.textContent = 'Tamu Undangan';
   }
@@ -45,6 +58,16 @@ document.addEventListener('DOMContentLoaded', () => {
     playMusic();
     initScrollAnimations();
     document.body.style.overflowY = 'auto';
+
+    // Aktifkan mode layar penuh (Fullscreen) untuk menyembunyikan bar URL di HP/Mobile
+    const docEl = document.documentElement;
+    if (docEl.requestFullscreen) {
+      docEl.requestFullscreen();
+    } else if (docEl.webkitRequestFullscreen) { /* Chrome, Safari & Opera Mobile */
+      docEl.webkitRequestFullscreen();
+    } else if (docEl.msRequestFullscreen) { /* IE/Edge */
+      docEl.msRequestFullscreen();
+    }
   });
 
   // 3. Audio Controller

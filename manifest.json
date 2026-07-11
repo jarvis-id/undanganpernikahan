@@ -1,0 +1,17 @@
+{
+  "short_name": "Undangan",
+  "name": "Undangan Pernikahan Adam & Hawa",
+  "description": "Undangan Pernikahan Digital Adam & Hawa",
+  "icons": [
+    {
+      "src": "assets/images/cover.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#1A0505",
+  "theme_color": "#8B1414",
+  "display": "standalone",
+  "orientation": "portrait"
+}
