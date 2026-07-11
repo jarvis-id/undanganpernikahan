@@ -1,0 +1,10 @@
+# Jangan upload file dokumentasi/panduan instalasi ke GitHub
+instalasi.md
+README.md
+README.me
+readme.md
+Code.gs
+
+# System files
+.DS_Store
+Thumbs.db
