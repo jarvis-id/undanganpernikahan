@@ -1,0 +1,1432 @@
+/* 
+ * Premium Wedding Invitation Stylesheet
+ * Theme: Toraja Traditional - Deep Red, Black & Gold
+ * Terinspirasi oleh motif tenun Toraja, ukiran Tongkonan, dan Pa'barre allo
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Sacramento&family=Outfit:wght@100..900&display=swap');
+
+/* ===================================================
+   TORAJA DESIGN SYSTEM - ROOT VARIABLES
+=================================================== */
+:root {
+  /* Colors - Toraja: Deep Red, Black Wood & Rich Gold */
+  --primary:       #8B1414;     /* Merah Toraja / Darah Kerbau */
+  --primary-light: #B82020;     /* Merah Muda Toraja */
+  --primary-dark:  #3D0000;     /* Merah Tua / Hitam Kayu */
+  --primary-rgb:   139, 20, 20;
+
+  --accent:        #D4AF37;     /* Emas Tradisional */
+  --accent-light:  #F5D785;     /* Emas Muda */
+  --accent-dark:   #A8862A;     /* Emas Tua / Bronze */
+  --accent-rgb:    212, 175, 55;
+
+  /* Background: Gading Tenun Toraja (sangat lembut di mata) */
+  --bg-warm:  rgba(254, 247, 230, 0.93); /* Gading lembut 93% transparan */
+  --bg-dark:  rgba(26, 5, 5, 0.93);      /* Hitam Kayu Tongkonan 93% transparan */
+  --bg-card:  #FFFDF9;                   /* Kartu putih-gading bersih */
+  --text-dark: #2C1E1B;                  /* Cokelat Tua/Hitam Kayu (sangat legible) */
+  --text-medium: #8B1414;                /* Merah Toraja untuk penegas judul/nama */
+  --text-light: #6E554F;                 /* Cokelat redup */
+  --white: #ffffff;
+
+  --glass-bg:     rgba(255, 255, 255, 0.88); /* Glass card putih lembut */
+  --glass-border: rgba(212, 175, 55, 0.38);
+
+  /* Gradients */
+  --gold-gradient: linear-gradient(135deg, #D4AF37 0%, #F5D785 40%, #A8862A 100%);
+  --red-gradient:  linear-gradient(135deg, #8B1414 0%, #B82020 50%, #3D0000 100%);
+  --toraja-bg-gradient: linear-gradient(160deg, rgba(26,5,5,0.88) 0%, rgba(61,0,0,0.88) 40%, rgba(92,26,26,0.88) 100%);
+
+  /* Shadows */
+  --shadow-sm: 0 4px 6px -1px rgba(139, 20, 20, 0.12);
+  --shadow-md: 0 10px 20px -3px rgba(139, 20, 20, 0.15), 0 4px 8px -2px rgba(0,0,0,0.1);
+  --shadow-lg: 0 20px 40px -5px rgba(0,0,0,0.3), 0 10px 15px -5px rgba(139, 20, 20, 0.2);
+  --shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.35);
+
+  /* Fonts */
+  --font-serif:  'Playfair Display', serif;
+  --font-script: 'Sacramento', cursive;
+  --font-sans:   'Outfit', sans-serif;
+
+  /* Layout */
+  --max-width: 1200px;
+
+  /* Toraja Motif Color (for CSS patterns) */
+  --motif-red:   #8B1414;
+  --motif-gold:  #D4AF37;
+  --motif-black: #1A0505;
+}
+
+/* ===================================================
+   RESET & BASE STYLES
+=================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text-dark);
+
+  /* === Foto latar belakang tetap (fixed parallax) === */
+  background-image: url('assets/images/wedding_altar.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+
+  /* Overlay merah Toraja di atas foto */
+  background-color: #3D0000;
+
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* ===================================================
+   TORAJA ORNAMENTAL SEPARATOR (lestoraja.png)
+   Digunakan sebagai pemisah antara setiap section
+=================================================== */
+
+/* 
+ * .toraja-sep        → untuk section berlatar TERANG (ivory/krem)
+ *   mix-blend-mode: multiply → warna putih gambar menjadi transparan,
+ *   hanya pola emas Toraja yang terlihat di atas latar krem/foto.
+ *
+ * .toraja-sep.dark   → untuk section berlatar GELAP (hitam kayu)
+ *   filter invert + screen blend → pola emas menjadi cerah di atas gelap.
+ */
+
+.toraja-sep {
+  display: block;
+  width: 100%;
+  height: 58px;
+  background-image: url('assets/template/lestoraja.png');
+  background-size: auto 58px;
+  background-repeat: repeat-x;
+  background-position: center;
+  mix-blend-mode: multiply;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Penempatan di tepi atas batas halaman */
+.toraja-sep.top {
+  top: 0;
+}
+
+/* Penempatan di tepi bawah batas halaman */
+.toraja-sep.bottom {
+  bottom: 0;
+}
+
+/* Untuk section gelap: invert image sehingga emas menyala di atas gelap */
+.toraja-sep.dark {
+  filter: invert(1) sepia(1) saturate(3) hue-rotate(30deg);
+  mix-blend-mode: screen;
+  opacity: 0.65;
+}
+
+/* Pada layar kecil, kurangi tinggi ornament agar proporsional */
+@media (max-width: 480px) {
+  .toraja-sep { height: 38px; background-size: auto 38px; }
+}
+
+/* ===================================================
+   TORAJA GEOMETRIC MOTIF PATTERNS
+   (CSS-only, no external image needed)
+=================================================== */
+
+/* Toraja Horizontal Border Pattern */
+.toraja-border-top,
+.toraja-border-bottom {
+  display: block;
+  width: 100%;
+  height: 18px;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      var(--motif-gold) 0px,
+      var(--motif-gold) 4px,
+      transparent 4px,
+      transparent 8px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      var(--motif-red) 0px,
+      var(--motif-red) 8px,
+      var(--motif-black) 8px,
+      var(--motif-black) 16px
+    );
+  background-size: 16px 18px, 16px 18px;
+  position: relative;
+}
+
+/* Toraja Diamond Strip (Pa'barre allo inspired) */
+.toraja-strip {
+  display: block;
+  width: 100%;
+  height: 12px;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      var(--motif-gold) 0,
+      var(--motif-gold) 3px,
+      transparent 3px,
+      transparent 9px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      var(--motif-gold) 0,
+      var(--motif-gold) 3px,
+      transparent 3px,
+      transparent 9px
+    );
+  background-color: var(--motif-red);
+}
+
+/* Section Toraja Divider */
+.toraja-divider {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 2rem 0;
+}
+
+/* ===================================================
+   ANIMATIONS
+=================================================== */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes float {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes pulseGold {
+  0%   { transform: scale(1); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+  70%  { transform: scale(1.05); box-shadow: 0 0 0 12px rgba(212, 175, 55, 0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+@keyframes pulseHeart {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.15); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+/* ===================================================
+   SCROLL ANIMATION UTILITIES
+=================================================== */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s cubic-bezier(0.215, 0.61, 0.355, 1),
+              transform 1s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.animate-on-scroll.appear {
+  opacity: 1;
+  transform: translateY(0);
+}
+.floating-element { animation: float 6s ease-in-out infinite; }
+
+/* ===================================================
+   GLASSMORPHISM CARD (Warm Toraja)
+=================================================== */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-md);
+  border-radius: 4px; /* square corners for Toraja style */
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gold corner ornament on cards */
+.glass-card::before,
+.glass-card::after {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-color: var(--accent);
+  border-style: solid;
+}
+.glass-card::before {
+  top: 8px; left: 8px;
+  border-width: 2px 0 0 2px;
+}
+.glass-card::after {
+  bottom: 8px; right: 8px;
+  border-width: 0 2px 2px 0;
+}
+
+/* ===================================================
+   COVER / SPLASH SCREEN
+=================================================== */
+.cover-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100vh;
+  z-index: 1000;
+  background: linear-gradient(
+    rgba(61, 0, 0, 0.62),
+    rgba(26, 5, 5, 0.80)
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+  color: var(--white);
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Toraja Diagonal Pattern Overlay on Cover */
+.cover-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(212, 175, 55, 0.04) 0,
+      rgba(212, 175, 55, 0.04) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(212, 175, 55, 0.04) 0,
+      rgba(212, 175, 55, 0.04) 1px,
+      transparent 1px,
+      transparent 20px
+    );
+  pointer-events: none;
+}
+
+/* Top and bottom gold strip on cover */
+.cover-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 6px;
+  background: var(--gold-gradient);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+}
+
+/* Bottom gold strip as pseudo on body */
+body::after {
+  content: '';
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--gold-gradient);
+  z-index: 9999;
+}
+
+.cover-overlay.opened { transform: translateY(-100%); }
+
+/* ── Mobile default: teks di tengah, foto sebagai overlay latar ── */
+.cover-content {
+  max-width: 620px;
+  padding: 2rem;
+  animation: fadeInUp 1.2s ease-out;
+  position: relative;
+  z-index: 2;
+}
+
+.cover-bg-photo-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+  clip-path: ellipse(100% 100% at 100% 0%); /* potongan setengah lingkaran diagonal */
+  opacity: 1;
+  pointer-events: none;
+}
+
+.cover-bg-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: none;
+}
+
+/* ── Desktop (≥768px): halaman dibagi 2 kolom ── */
+@media (min-width: 768px) {
+  .cover-overlay {
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
+    text-align: center;
+    /* hapus background merah, warna ditangani tiap kolom */
+    background: none;
+  }
+
+  /* Kolom kiri: teks undangan dengan latar gelap Toraja */
+  .cover-content {
+    order: 1;
+    width: 50%;
+    max-width: 50%;
+    min-height: 100vh;
+    padding: 3.5rem 2.5rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(
+      180deg,
+      rgba(26, 5, 5, 0.96) 0%,
+      rgba(61, 0, 0, 0.92) 100%
+    );
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-right: 2px solid var(--accent);
+    box-shadow: 4px 0 30px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Kolom kanan: foto penuh tanpa potongan diagonal */
+  .cover-bg-photo-wrapper {
+    order: 2;
+    position: relative;
+    width: 50%;
+    height: 100vh;
+    clip-path: none; /* hilangkan elips diagonal di desktop */
+    opacity: 1;
+    pointer-events: none;
+  }
+
+  .cover-bg-photo {
+    object-position: center center;
+  }
+}
+
+.cover-title {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  color: var(--accent-light);
+  /* Bayangan tebal agar tulisan melayang dan terbaca di atas foto pengantin */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.8);
+}
+
+/* Toraja horizontal rule under subtitle */
+.cover-title::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 2px;
+  background: var(--gold-gradient);
+  margin: 0.75rem auto 1.5rem;
+}
+
+.cover-names {
+  font-family: var(--font-script);
+  font-size: 5.5rem;
+  line-height: 1;
+  margin: 1rem 0 1.5rem;
+  color: var(--accent-light);
+  /* Bayangan ganda tebal untuk kontras maksimal */
+  text-shadow: 
+    2px 2px 6px rgba(0, 0, 0, 0.95), 
+    0 0 25px rgba(212, 175, 55, 0.55), 
+    0 0 15px rgba(0, 0, 0, 0.9);
+}
+
+.cover-quote {
+  font-size: 0.95rem;
+  font-style: italic;
+  margin-bottom: 2rem;
+  opacity: 0.95;
+  line-height: 1.7;
+  color: rgba(254, 247, 230, 0.95);
+  /* Bayangan bayang hitam tipis melingkar di belakang huruf */
+  text-shadow: 
+    1px 1px 3px rgba(0, 0, 0, 0.95), 
+    -1px -1px 3px rgba(0, 0, 0, 0.95),
+    1px -1px 3px rgba(0, 0, 0, 0.95),
+    -1px 1px 3px rgba(0, 0, 0, 0.95),
+    0 0 8px rgba(0, 0, 0, 0.9);
+}
+
+.guest-card {
+  background: rgba(26, 5, 5, 0.72); /* semi-transparan tipis agar foto tetap tembus */
+  border: 1px solid rgba(212, 175, 55, 0.55);
+  border-radius: 4px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  display: inline-block;
+  min-width: 280px;
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Diamond corners on guest card */
+.guest-card::before,
+.guest-card::after {
+  content: '✦';
+  color: var(--accent);
+  font-size: 0.7rem;
+  position: absolute;
+  line-height: 1;
+}
+.guest-card::before { top: 6px; left: 8px; }
+.guest-card::after  { bottom: 6px; right: 8px; }
+
+.guest-card p {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.5rem;
+  color: var(--accent-light);
+  opacity: 0.85;
+}
+
+.guest-name {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--white);
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+}
+
+/* ===================================================
+   BUTTONS
+=================================================== */
+.btn-primary {
+  background: var(--gold-gradient);
+  color: var(--primary-dark);
+  border: none;
+  padding: 1rem 2.5rem;
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border-radius: 2px;
+  cursor: pointer;
+  box-shadow: var(--shadow-gold);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  transition: left 0.5s ease;
+}
+.btn-primary:hover::before { left: 100%; }
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.55);
+}
+.btn-primary svg {
+  width: 18px; height: 18px;
+  transition: transform 0.3s ease;
+}
+.btn-primary:hover svg { transform: translateX(3px); }
+
+/* ===================================================
+   FLOATING MUSIC CONTROL
+=================================================== */
+.music-control-btn {
+  position: fixed;
+  bottom: 25px; right: 25px;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--primary-dark);
+  border: 2px solid var(--accent);
+  box-shadow: var(--shadow-gold);
+  cursor: pointer;
+  z-index: 999;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  color: var(--accent);
+  transition: all 0.3s ease;
+}
+.music-control-btn:hover {
+  transform: scale(1.1);
+  background: var(--primary);
+}
+.music-control-btn.playing { animation: pulseGold 2s infinite; }
+.music-control-btn.playing svg { animation: spin 6s linear infinite; }
+
+/* ===================================================
+   GLOBAL CONTENT
+=================================================== */
+.main-content { display: none; }
+.main-content.visible { display: block; }
+
+section {
+  padding: 6rem 1.5rem;
+  position: relative;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+/* Ornamental Divider */
+.ornament {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem auto;
+  color: var(--accent);
+}
+.ornament svg { width: 80px; height: auto; }
+
+/* Section Header */
+.section-title-wrapper {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+.section-subtitle {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: var(--accent);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+/* Gold underline below subtitle */
+.section-subtitle::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 2px;
+  background: var(--gold-gradient);
+  margin: 0.6rem auto 0;
+}
+.section-title {
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  color: var(--primary);
+  margin-top: 1rem;
+}
+
+/* ===================================================
+   HERO / WELCOME SECTION
+=================================================== */
+.hero-section {
+  text-align: center;
+  background-color: var(--bg-warm);
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(212, 175, 55, 0.06) 0,
+      rgba(212, 175, 55, 0.06) 1px,
+      transparent 1px,
+      transparent 40px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(212, 175, 55, 0.06) 0,
+      rgba(212, 175, 55, 0.06) 1px,
+      transparent 1px,
+      transparent 40px
+    );
+}
+
+.hero-quote-card {
+  max-width: 800px;
+  margin: 0 auto;
+  border-top: 3px solid var(--accent);
+  border-bottom: 3px solid var(--accent);
+}
+.hero-quote-card p {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  color: var(--text-dark);
+  line-height: 1.9;
+}
+.hero-quote-source {
+  display: block;
+  margin-top: 1.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--primary);
+  text-transform: uppercase;
+}
+
+/* ===================================================
+   COUPLE SECTION (dark toraja background)
+=================================================== */
+.couple-section {
+  background: var(--toraja-bg-gradient);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Toraja weave pattern overlay on couple section */
+.couple-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(212, 175, 55, 0.05) 0,
+      rgba(212, 175, 55, 0.05) 1px,
+      transparent 1px,
+      transparent 15px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(212, 175, 55, 0.05) 0,
+      rgba(212, 175, 55, 0.05) 1px,
+      transparent 1px,
+      transparent 15px
+    );
+  pointer-events: none;
+}
+
+.couple-section .section-title { color: var(--accent-light); }
+.couple-section .section-subtitle { color: var(--accent); }
+
+.couple-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 3rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.couple-card {
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.couple-image-container {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 2rem;
+  border-radius: 4px; /* Square Toraja style */
+  padding: 8px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 2px solid var(--accent);
+  box-shadow: var(--shadow-gold);
+  position: relative;
+}
+.couple-image-container::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 4px;
+  pointer-events: none;
+}
+.couple-img {
+  width: 100%; height: 100%;
+  border-radius: 2px;
+  object-fit: cover;
+}
+.couple-name {
+  font-family: var(--font-script);
+  font-size: 3.5rem;
+  line-height: 1;
+  color: var(--accent-light);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+.couple-fullname {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 0.75rem;
+}
+.couple-parents {
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+.couple-social {
+  margin-top: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.couple-social:hover {
+  background: var(--accent);
+  color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-gold);
+}
+.couple-divider {
+  font-family: var(--font-script);
+  font-size: 4rem;
+  color: var(--accent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.couple-divider svg {
+  width: 38px; height: 38px;
+  color: var(--accent);
+  animation: pulseHeart 1.5s infinite;
+  filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5));
+}
+
+/* ===================================================
+   COUNTDOWN SECTION
+=================================================== */
+.countdown-section {
+  background: rgba(61, 0, 0, 0.85);
+  color: var(--white);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-top: 4px solid var(--accent);
+  border-bottom: 4px solid var(--accent);
+}
+.countdown-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(212, 175, 55, 0.06) 0,
+      rgba(212, 175, 55, 0.06) 1px,
+      transparent 1px,
+      transparent 30px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(212, 175, 55, 0.06) 0,
+      rgba(212, 175, 55, 0.06) 1px,
+      transparent 1px,
+      transparent 30px
+    );
+  pointer-events: none;
+}
+.countdown-section .section-title { color: var(--accent-light); }
+.countdown-section .section-subtitle { color: var(--accent); }
+
+.countdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 3rem auto 0;
+}
+.countdown-item {
+  background: var(--primary-dark);
+  border: 1px solid var(--accent-dark);
+  border-radius: 4px;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-gold);
+  position: relative;
+}
+/* Gold corner accents on countdown items */
+.countdown-item::before,
+.countdown-item::after {
+  content: '';
+  position: absolute;
+  width: 10px; height: 10px;
+  border-color: var(--accent);
+  border-style: solid;
+}
+.countdown-item::before { top: 4px; left: 4px; border-width: 1px 0 0 1px; }
+.countdown-item::after  { bottom: 4px; right: 4px; border-width: 0 1px 1px 0; }
+
+.countdown-value {
+  font-family: var(--font-serif);
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent-light);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+.countdown-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(245, 215, 133, 0.7);
+}
+
+/* ===================================================
+   EVENT SECTION
+=================================================== */
+.event-section {
+  background-color: var(--bg-warm);
+  background-image:
+    radial-gradient(circle at top right, rgba(212, 175, 55, 0.12) 0%, transparent 50%),
+    radial-gradient(circle at bottom left, rgba(0,0,0, 0.15) 0%, transparent 50%);
+}
+.event-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.event-card {
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.3s ease;
+}
+.event-card:hover { transform: translateY(-5px); }
+.event-card-header { margin-bottom: 1.5rem; }
+
+.event-icon-circle {
+  width: 60px; height: 60px;
+  border-radius: 4px;
+  background: rgba(139, 20, 20, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: var(--primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 1.5rem;
+}
+.event-icon-circle svg { width: 24px; height: 24px; }
+.event-type {
+  font-family: var(--font-serif);
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+.event-card-body { margin-bottom: 2rem; flex-grow: 1; }
+.event-date-text {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--accent-dark);
+  margin-bottom: 1rem;
+}
+.event-time-text { font-size: 1.1rem; font-weight: 500; margin-bottom: 1rem; }
+.event-location { font-weight: 600; margin-bottom: 0.25rem; }
+.event-address { font-size: 0.9rem; color: var(--text-light); margin-bottom: 1.5rem; }
+
+/* ===================================================
+   GALLERY SECTION (dark Toraja theme)
+=================================================== */
+.gallery-section {
+  background: var(--toraja-bg-gradient);
+  position: relative;
+  overflow: hidden;
+}
+.gallery-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(212, 175, 55, 0.04) 0,
+      rgba(212, 175, 55, 0.04) 1px,
+      transparent 1px,
+      transparent 18px
+    );
+  pointer-events: none;
+}
+.gallery-section .section-title  { color: var(--accent-light); }
+.gallery-section .section-subtitle { color: var(--accent); }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+  position: relative;
+  z-index: 1;
+}
+.gallery-item {
+  overflow: hidden;
+  border-radius: 2px;
+  border: 2px solid rgba(212, 175, 55, 0.25);
+  box-shadow: var(--shadow-gold);
+  aspect-ratio: 1 / 1;
+  background-color: rgba(212, 175, 55, 0.05);
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+.gallery-item:hover { border-color: var(--accent); }
+.gallery-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.gallery-item:hover img { transform: scale(1.08); }
+
+/* ===================================================
+   RSVP SECTION
+=================================================== */
+.rsvp-section {
+  background-color: var(--bg-warm);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      rgba(212, 175, 55, 0.06) 0,
+      rgba(212, 175, 55, 0.06) 1px,
+      transparent 1px,
+      transparent 25px
+    );
+}
+.rsvp-form-container { max-width: 600px; margin: 0 auto; }
+.form-group { margin-bottom: 1.5rem; text-align: left; }
+.form-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+  color: var(--primary-dark);
+}
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  border-radius: 2px;
+  border: 1px solid rgba(139, 20, 20, 0.2);
+  border-bottom: 2px solid var(--primary);
+  background-color: rgba(255, 255, 255, 0.95);
+  color: var(--text-dark);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  border-bottom-color: var(--accent);
+  background-color: var(--white);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+  color: var(--text-dark);
+}
+.rsvp-radio-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+.rsvp-radio-btn { position: relative; }
+.rsvp-radio-btn input[type="radio"] {
+  position: absolute;
+  opacity: 0; width: 0; height: 0;
+}
+.rsvp-radio-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.9rem;
+  border-radius: 2px;
+  border: 1px solid rgba(139, 20, 20, 0.25);
+  background-color: var(--bg-card);
+  color: var(--text-dark);
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-align: center;
+  font-size: 0.95rem;
+}
+.rsvp-radio-btn input[type="radio"]:checked + .rsvp-radio-label {
+  background: var(--red-gradient);
+  color: var(--white);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+.btn-submit {
+  width: 100%;
+  justify-content: center;
+  margin-top: 1rem;
+  padding: 1.1rem;
+}
+
+/* ===================================================
+   GUESTBOOK / WISHES SECTION
+=================================================== */
+.wishes-section {
+  background-color: var(--bg-warm);
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(212, 175, 55, 0.04) 0,
+      rgba(212, 175, 55, 0.04) 1px,
+      transparent 1px,
+      transparent 18px
+    );
+}
+.wishes-container { max-width: 750px; margin: 0 auto; }
+.wishes-card {
+  max-height: 450px;
+  overflow-y: auto;
+  margin-top: 2rem;
+  padding-right: 1rem;
+}
+/* Custom scrollbar - gold Toraja style */
+.wishes-card::-webkit-scrollbar { width: 5px; }
+.wishes-card::-webkit-scrollbar-track {
+  background: rgba(139, 20, 20, 0.05);
+  border-radius: 10px;
+}
+.wishes-card::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.5);
+  border-radius: 10px;
+}
+.wishes-card::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.8);
+}
+.wish-item {
+  background: var(--bg-card);
+  border-left: 4px solid var(--primary);
+  padding: 1.5rem;
+  border-radius: 0 4px 4px 0;
+  margin-bottom: 1.2rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, border-left-color 0.2s ease;
+}
+.wish-item:hover {
+  transform: translateX(4px);
+  border-left-color: var(--accent);
+}
+.wish-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.wish-author { font-weight: 700; color: var(--primary-dark); font-size: 1.05rem; }
+.wish-status {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  font-weight: 700;
+}
+.status-hadir {
+  background-color: rgba(139, 20, 20, 0.08);
+  color: var(--primary);
+}
+.status-tidak {
+  background-color: rgba(220, 53, 69, 0.08);
+  color: #dc3545;
+}
+.status-ragu {
+  background-color: rgba(212, 175, 55, 0.15);
+  color: var(--accent-dark);
+}
+.wish-content { font-size: 0.95rem; color: var(--text-dark); word-break: break-word; }
+.wish-time {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--text-light);
+  margin-top: 0.5rem;
+  text-align: right;
+}
+.wishes-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* ===================================================
+   GIFT / DIGITAL ENVELOPE SECTION (Dark Toraja)
+=================================================== */
+.gift-section {
+  background: var(--toraja-bg-gradient);
+  position: relative;
+  overflow: hidden;
+}
+.gift-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(212, 175, 55, 0.04) 0,
+      rgba(212, 175, 55, 0.04) 1px,
+      transparent 1px,
+      transparent 22px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(212, 175, 55, 0.04) 0,
+      rgba(212, 175, 55, 0.04) 1px,
+      transparent 1px,
+      transparent 22px
+    );
+  pointer-events: none;
+}
+.gift-section .section-title { color: var(--accent-light); }
+.gift-section .section-subtitle { color: var(--accent); }
+
+.gift-container { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+.gift-intro {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  color: rgba(245, 215, 133, 0.75);
+  font-style: italic;
+}
+.gift-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+}
+.gift-card {
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+.gift-card:hover { transform: translateY(-5px); }
+
+/* Override glass-card for dark sections */
+.gift-section .glass-card {
+  background: rgba(26, 5, 5, 0.7);
+  border-color: rgba(212, 175, 55, 0.25);
+}
+.gift-section .glass-card::before {
+  border-color: var(--accent-dark);
+}
+.gift-section .glass-card::after {
+  border-color: var(--accent-dark);
+}
+
+.bank-logo {
+  font-size: 1.6rem;
+  font-family: var(--font-serif);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+}
+.account-details {
+  background: rgba(212, 175, 55, 0.06);
+  padding: 1.5rem;
+  border-radius: 2px;
+  border: 1px dashed rgba(212, 175, 55, 0.4);
+  margin-bottom: 1.5rem;
+}
+.account-number {
+  font-family: var(--font-sans);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--accent-light);
+  margin-bottom: 0.5rem;
+  user-select: all;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+.account-name {
+  font-size: 0.85rem;
+  color: rgba(245, 215, 133, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.btn-copy {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  padding: 0.6rem 1.5rem;
+  font-size: 0.85rem;
+  border-radius: 2px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.btn-copy:hover {
+  background: var(--accent);
+  color: var(--primary-dark);
+  box-shadow: var(--shadow-gold);
+}
+.btn-copy svg { width: 14px; height: 14px; }
+
+/* ===================================================
+   TOAST NOTIFICATION
+=================================================== */
+.toast-notification {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--bg-dark);
+  border: 1px solid var(--accent);
+  color: var(--accent-light);
+  padding: 0.8rem 2rem;
+  border-radius: 2px;
+  font-size: 0.9rem;
+  z-index: 10000;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: var(--shadow-gold);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+.toast-notification.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+/* ===================================================
+   FOOTER SECTION
+=================================================== */
+.footer-section {
+  background: var(--bg-dark);
+  color: var(--white);
+  text-align: center;
+  padding: 5rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  border-top: 3px solid var(--accent);
+}
+.footer-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(212, 175, 55, 0.03) 0,
+      rgba(212, 175, 55, 0.03) 1px,
+      transparent 1px,
+      transparent 20px
+    );
+  pointer-events: none;
+}
+.footer-names {
+  font-family: var(--font-script);
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--accent-light);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 30px rgba(212, 175, 55, 0.35);
+  position: relative;
+  z-index: 1;
+}
+.footer-thank {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-style: italic;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  opacity: 0.7;
+  position: relative;
+  z-index: 1;
+}
+.footer-credits {
+  font-size: 0.75rem;
+  color: rgba(212, 175, 55, 0.35);
+  letter-spacing: 0.08em;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===================================================
+   RESPONSIVE
+=================================================== */
+@media (max-width: 992px) {
+  section { padding: 5rem 1.5rem; }
+  .couple-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .couple-divider {
+    transform: rotate(90deg);
+    margin: 1rem 0;
+  }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .cover-names { font-size: 4rem; }
+  .countdown-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+  .countdown-item { padding: 1rem 0.5rem; }
+  .countdown-value { font-size: 2.2rem; }
+  .countdown-label { font-size: 0.65rem; }
+  .event-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .gift-cards-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .rsvp-radio-group { grid-template-columns: 1fr; gap: 0.5rem; }
+}
+
+@media (max-width: 480px) {
+  .cover-names { font-size: 3rem; }
+  .section-title { font-size: 2rem; }
+  .couple-name { font-size: 3rem; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .toast-notification { width: 90%; text-align: center; }
+  .glass-card { padding: 1.5rem 1.2rem; }
+}
